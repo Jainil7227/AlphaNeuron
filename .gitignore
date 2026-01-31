@@ -1,0 +1,51 @@
+# ================================
+# SECRETS - NEVER COMMIT
+# ================================
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+*.env
+
+# API Keys
+secrets/
+*.key
+*.pem
+*.secret
+
+# ================================
+# Python
+# ================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+ENV/
+
+# ================================
+# IDE
+# ================================
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# ================================
+# Testing
+# ================================
+.coverage
+htmlcov/
+.pytest_cache/
+
+# ================================
+# Build
+# ================================
+dist/
+build/
+*.egg-info/

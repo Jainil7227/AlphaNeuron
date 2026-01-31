@@ -36,6 +36,15 @@ class Settings(BaseSettings):
     FUEL_API_URL: str = "https://api.example.com/fuel"
     WEATHER_API_KEY: str = ""
 
+    # -----------------
+    # Grok AI (xAI)
+    # -----------------
+    GROK_API_KEY: str = ""
+    GROK_BASE_URL: str = "https://api.x.ai/v1"
+    GROK_MODEL: str = "grok-beta"
+    GROK_MAX_TOKENS: int = 4096
+    GROK_TEMPERATURE: float = 0.7
+
     # Agent Configuration
     AGENT_CHECK_INTERVAL_MINUTES: int = 15
     AGENT_MIN_PROFIT_THRESHOLD: float = 500.0
