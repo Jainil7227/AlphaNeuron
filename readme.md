@@ -1,1 +1,8 @@
-This is our project for Hacekron 2k26
+Team AlphaNeuron
+Team members -
+Jainil Kothari
+Kush Agarwal
+Jayesh Deore
+Sagar Ahirrao
+Parth Kalne 
+Problem Statement - 
