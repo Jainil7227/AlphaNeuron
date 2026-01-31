@@ -1,11 +1,5 @@
-Team AlphaNeuron
-Team members -
-Jainil Kothari
-Kush Agarwal
-Jayesh Deore
-Sagar Ahirrao
-Parth Kalne 
-Problem Statement - Problem:
+Problem statment 
+Problem:
 
 Road logistics is still planned as isolated trips rather than as a continuous operation across a vehicle's day or an operator's fleet. Load matching, routing, and pricing are decided upfront, with little ability to adapt once a truck is already on the road. As conditions change-traffic, fuel costs, delivery delays, or new load availability- trucks often run underutilized or return empty.
 
