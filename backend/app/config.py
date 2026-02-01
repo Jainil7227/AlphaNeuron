@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     PORT: int = 8000
 
     # Database - PostgreSQL with PostGIS
-    DATABASE_URL: str
+    DATABASE_URL: str = "sqlite:///./demo.db"
     DB_POOL_SIZE: int = 10
     DB_ECHO: bool = False
 
