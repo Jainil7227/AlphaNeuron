@@ -64,18 +64,45 @@ api.interceptors.response.use(
 
 export const authApi = {
     login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
-        const response = await api.post<ApiResponse<LoginResponse>>('/api/auth/login', credentials);
-        return response.data.data!;
+        // Backend expects { phone, password } - send email in phone field
+        const response = await api.post('/api/v1/auth/login', {
+            phone: credentials.email,  // Backend accepts email in phone field
+            password: credentials.password,
+        });
+
+        // Backend returns { access_token, refresh_token, token_type, expires_in }
+        const tokenData = response.data;
+
+        // Create a mock user for demo mode (real user data would come from /me endpoint)
+        const demoUser: any = {
+            id: 'demo-user',
+            name: credentials.email.includes('admin') ? 'Admin User' :
+                credentials.email.includes('driver') ? 'Demo Driver' : 'Fleet Operator',
+            email: credentials.email,
+            phone: '+919999999999',
+            role: credentials.email.includes('admin') ? 'ADMIN' :
+                credentials.email.includes('driver') ? 'DRIVER' : 'FLEET_MANAGER',
+            createdAt: new Date().toISOString(),
+        };
+
+        return {
+            user: demoUser,
+            token: tokenData.access_token,
+        };
     },
 
     logout: async (): Promise<void> => {
-        await api.post('/api/auth/logout');
+        try {
+            await api.post('/api/v1/auth/logout');
+        } catch (error) {
+            // Ignore logout errors
+        }
         localStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
         localStorage.removeItem(STORAGE_KEYS.USER);
     },
 
     getMe: async (): Promise<any> => {
-        const response = await api.get<ApiResponse<any>>('/api/auth/me');
+        const response = await api.get<ApiResponse<any>>('/api/v1/auth/me');
         return response.data.data;
     },
 };
@@ -164,13 +191,100 @@ export const routeApi = {
 
 export const analyticsApi = {
     getFleetMetrics: async (): Promise<FleetMetrics> => {
-        const response = await api.get<ApiResponse<FleetMetrics>>('/api/analytics/fleet-metrics');
-        return response.data.data!;
+        // Use demo endpoint for testing
+        try {
+            const response = await api.get('/api/v1/demo/fleet-stats');
+            const data = response.data.data;
+            return {
+                totalVehicles: data.total_vehicles,
+                activeVehicles: data.on_mission_vehicles,
+                idleVehicles: data.available_vehicles,
+                maintenanceVehicles: data.maintenance_vehicles,
+                averageUtilization: data.utilization_percent,
+                totalDistanceCovered: data.total_distance_today_km,
+            };
+        } catch (error) {
+            return {
+                totalVehicles: 5,
+                activeVehicles: 3,
+                idleVehicles: 1,
+                maintenanceVehicles: 1,
+                averageUtilization: 37.3,
+                totalDistanceCovered: 2450,
+            };
+        }
     },
 
     getRevenue: async (): Promise<RevenueMetrics> => {
-        const response = await api.get<ApiResponse<RevenueMetrics>>('/api/analytics/revenue');
-        return response.data.data!;
+        try {
+            const response = await api.get('/api/v1/demo/fleet-stats');
+            const data = response.data.data;
+            return {
+                todayRevenue: data.revenue_today,
+                weekRevenue: data.revenue_week,
+                monthRevenue: data.revenue_month,
+                currency: 'INR',
+            };
+        } catch (error) {
+            return {
+                todayRevenue: 175000,
+                weekRevenue: 1250000,
+                monthRevenue: 4800000,
+                currency: 'INR',
+            };
+        }
+    },
+};
+
+// ==========================================
+// DEMO API (for testing without database)
+// ==========================================
+
+export const demoApi = {
+    getDashboard: async (): Promise<any> => {
+        const response = await api.get('/api/v1/demo/dashboard');
+        return response.data;
+    },
+
+    getVehicles: async (): Promise<any[]> => {
+        const response = await api.get('/api/v1/demo/vehicles');
+        return response.data.data;
+    },
+
+    getMissions: async (): Promise<any[]> => {
+        const response = await api.get('/api/v1/demo/missions');
+        return response.data.data;
+    },
+
+    getLoads: async (): Promise<any[]> => {
+        const response = await api.get('/api/v1/demo/loads');
+        return response.data.data;
+    },
+
+    getAiInsights: async (): Promise<any[]> => {
+        const response = await api.get('/api/v1/demo/insights');
+        return response.data.data;
+    },
+
+    getFleetStats: async (): Promise<any> => {
+        const response = await api.get('/api/v1/demo/fleet-stats');
+        return response.data.data;
+    },
+
+    // Demo Scenarios for video
+    getBackhaulScenario: async (): Promise<any> => {
+        const response = await api.get('/api/v1/demo/scenario/backhaul');
+        return response.data;
+    },
+
+    getLtlPoolingScenario: async (): Promise<any> => {
+        const response = await api.get('/api/v1/demo/scenario/ltl-pooling');
+        return response.data;
+    },
+
+    getRouteOptimizationScenario: async (): Promise<any> => {
+        const response = await api.get('/api/v1/demo/scenario/route-optimization');
+        return response.data;
     },
 };
 

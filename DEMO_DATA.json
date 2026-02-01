@@ -1,0 +1,731 @@
+{
+    "neuro_logistics_demo_data": {
+        "version": "1.0.0",
+        "generated_at": "2026-02-01T06:30:00+05:30",
+        "description": "Comprehensive demo data for Neuro-Logistics Supervisor AI Agent demonstration"
+    },
+    "agent_overview": {
+        "name": "Neuro-Logistics Supervisor",
+        "description": "A single AI agent that runs in a continuous decision loop and dynamically switches behavior based on the truck's journey state",
+        "decision_loop": [
+            "Observe",
+            "Reason",
+            "Decide",
+            "Act",
+            "Repeat"
+        ],
+        "modules": [
+            {
+                "name": "Smart Planning",
+                "phase": "Before Trip",
+                "features": [
+                    "Realistic truck route generation",
+                    "Dynamic effort-based fare calculation",
+                    "ETA range (not single optimistic time)"
+                ]
+            },
+            {
+                "name": "Live Adaptation",
+                "phase": "During Trip",
+                "features": [
+                    "Traffic and delay monitoring",
+                    "Re-routing when beneficial",
+                    "Real-time decision making"
+                ]
+            },
+            {
+                "name": "Capacity & Return Optimization",
+                "phase": "Throughout",
+                "features": [
+                    "Track unused truck space",
+                    "Find en-route LTL loads",
+                    "Pre-book return loads"
+                ]
+            }
+        ],
+        "indian_context_handling": [
+            "Delay probabilities instead of ideal map times",
+            "Works with poor connectivity using cached data",
+            "Prioritizes safety over aggressive optimization"
+        ]
+    },
+    "demo_scenarios": {
+        "scenario_1_smart_planning": {
+            "title": "Smart Trip Planning - Mumbai to Delhi",
+            "description": "AI agent generates realistic route with dynamic fare and ETA range",
+            "input": {
+                "origin": "Mumbai",
+                "destination": "Delhi",
+                "cargo_type": "Industrial Machinery",
+                "weight_tons": 12.5,
+                "vehicle": {
+                    "id": "v-001",
+                    "registration_number": "MH12AB1234",
+                    "make": "Tata Prima 4928.S",
+                    "max_capacity_tons": 28,
+                    "driver": "Rajesh Kumar"
+                }
+            },
+            "agent_output": {
+                "mission_id": "m-20260201-001",
+                "route": {
+                    "distance_km": 1420,
+                    "highways": [
+                        "NH48",
+                        "NH44",
+                        "NH8"
+                    ],
+                    "via_cities": [
+                        "Nashik",
+                        "Dhule",
+                        "Indore",
+                        "Bhopal",
+                        "Gwalior",
+                        "Agra"
+                    ],
+                    "is_truck_friendly": true,
+                    "avoids": [
+                        "Narrow city roads",
+                        "Low bridges",
+                        "Residential areas"
+                    ]
+                },
+                "eta_range": {
+                    "optimistic": {
+                        "hours": 22.5,
+                        "arrival": "2026-02-02T04:30:00+05:30",
+                        "scenario": "Everything goes perfectly, minimal toll queues"
+                    },
+                    "expected": {
+                        "hours": 26.5,
+                        "arrival": "2026-02-02T08:30:00+05:30",
+                        "scenario": "Normal conditions with typical delays"
+                    },
+                    "pessimistic": {
+                        "hours": 32.0,
+                        "arrival": "2026-02-02T14:00:00+05:30",
+                        "scenario": "Heavy traffic, toll delays, border checks"
+                    },
+                    "confidence_interval": "80%"
+                },
+                "fare_calculation": {
+                    "base_fare": 72000,
+                    "toll_cost": 4500,
+                    "fuel_cost": 18000,
+                    "effort_multiplier": 1.08,
+                    "delay_compensation": 3600,
+                    "total_fare": 98100,
+                    "rate_per_km": 69,
+                    "breakdown": {
+                        "distance_charge": 56800,
+                        "weight_factor": 1.25,
+                        "cargo_handling": 2000,
+                        "border_crossings": 3,
+                        "night_driving_premium": 2500
+                    }
+                },
+                "waypoints": [
+                    {
+                        "km": 165,
+                        "type": "toll_plaza",
+                        "name": "Kasara Ghat Toll",
+                        "cost": 385,
+                        "expected_wait": "5-15 min"
+                    },
+                    {
+                        "km": 280,
+                        "type": "fuel_stop",
+                        "name": "HP Dhule",
+                        "recommendation": "Good rates, clean facilities"
+                    },
+                    {
+                        "km": 320,
+                        "type": "checkpoint",
+                        "name": "Maharashtra-MP Border",
+                        "expected_delay": "15-30 min",
+                        "documents": [
+                            "E-Way Bill",
+                            "RC",
+                            "License"
+                        ]
+                    },
+                    {
+                        "km": 580,
+                        "type": "toll_plaza",
+                        "name": "Indore Bypass Toll",
+                        "cost": 420
+                    },
+                    {
+                        "km": 750,
+                        "type": "fuel_stop",
+                        "name": "IOCL Bhopal"
+                    },
+                    {
+                        "km": 920,
+                        "type": "checkpoint",
+                        "name": "MP-UP Border",
+                        "expected_delay": "20-45 min"
+                    },
+                    {
+                        "km": 1100,
+                        "type": "toll_plaza",
+                        "name": "Agra Expressway Toll",
+                        "cost": 890
+                    }
+                ],
+                "risk_assessment": {
+                    "risk_level": "medium",
+                    "risk_score": 42,
+                    "factors": [
+                        "3 state border crossings",
+                        "Long haul journey (>1000 km)",
+                        "Heavy cargo requiring careful handling"
+                    ],
+                    "mitigations": [
+                        "All documents prepared and accessible",
+                        "Rest stops planned every 500km",
+                        "Alternative routes identified for traffic"
+                    ]
+                },
+                "pre_booked_return_options": [
+                    {
+                        "load_id": "rl-101",
+                        "shipper": "Maruti Suzuki Ltd",
+                        "cargo": "Auto Parts",
+                        "weight_tons": 18,
+                        "rate": 75000,
+                        "pickup": "Manesar (30km from Delhi)",
+                        "delivery": "Pune",
+                        "status": "Available for pre-booking"
+                    }
+                ]
+            }
+        },
+        "scenario_2_live_adaptation": {
+            "title": "Live Adaptation - Traffic Rerouting",
+            "description": "AI agent detects traffic congestion and suggests optimal reroute",
+            "trigger_event": {
+                "type": "traffic_alert",
+                "location": "NH44 near Vadodara",
+                "severity": "heavy",
+                "cause": "Accident + Road work",
+                "expected_delay": "2 hours 15 minutes"
+            },
+            "agent_decision_loop": {
+                "observe": {
+                    "timestamp": "2026-02-01T14:30:00+05:30",
+                    "current_location": {
+                        "lat": 22.3072,
+                        "lng": 73.1812
+                    },
+                    "current_city": "Near Vadodara",
+                    "mission_progress": "60%",
+                    "remaining_distance_km": 460,
+                    "truck_status": {
+                        "fuel_level": 45,
+                        "driver_hours": 6.5,
+                        "load_status": "secure"
+                    },
+                    "traffic_ahead": "BLOCKED - 2+ hour delay"
+                },
+                "reason": {
+                    "constraints": [
+                        "Cannot wait 2+ hours - will miss delivery window",
+                        "Driver has 6.5 hours left before mandatory rest"
+                    ],
+                    "opportunities": [
+                        "Alternative route via Bharuch available",
+                        "Alternative adds 20km but saves 1.5 hours"
+                    ],
+                    "trade_offs": [
+                        {
+                            "option": "Wait",
+                            "cost": "2.15 hours delay, ₹3200 lost time value"
+                        },
+                        {
+                            "option": "Reroute",
+                            "cost": "20km extra, ₹1600 fuel, saves 1.5 hours"
+                        }
+                    ],
+                    "analysis": "Reroute saves ₹1600 and improves delivery reliability"
+                },
+                "decide": {
+                    "decision_type": "ROUTE_CHANGE",
+                    "action": "Reroute via Bharuch",
+                    "confidence": 0.92,
+                    "expected_benefit": {
+                        "time_saved_hours": 1.5,
+                        "cost_saved": 1600,
+                        "delivery_reliability": "improved"
+                    }
+                },
+                "act": {
+                    "action_id": "ACT-202602011430",
+                    "command": "Navigate to Bharuch bypass",
+                    "driver_notification": "🔄 Route changed: Take exit 12B towards Bharuch to avoid 2-hour traffic jam. New ETA: 19:15",
+                    "updated_eta": "2026-02-01T19:15:00+05:30"
+                }
+            },
+            "outcome": {
+                "original_eta": "2026-02-01T20:45:00+05:30",
+                "new_eta": "2026-02-01T19:15:00+05:30",
+                "time_saved": "1 hour 30 minutes",
+                "extra_fuel_cost": 1600,
+                "net_benefit": "+₹1,600 value saved"
+            }
+        },
+        "scenario_3_backhaul_opportunity": {
+            "title": "Backhaul Detection - Eliminating Dead Miles",
+            "description": "AI agent detects and recommends backhaul load 50km before destination",
+            "trigger_event": {
+                "type": "approaching_destination",
+                "current_location": "50km from Delhi",
+                "mission_completion": "97%",
+                "expected_arrival": "30 minutes"
+            },
+            "agent_decision_loop": {
+                "observe": {
+                    "timestamp": "2026-02-01T17:30:00+05:30",
+                    "mission_status": "Almost complete",
+                    "truck_after_delivery": {
+                        "capacity_available": 28,
+                        "next_job": "None assigned",
+                        "home_base": "Mumbai"
+                    },
+                    "available_return_loads": [
+                        {
+                            "load_id": "bh-201",
+                            "shipper": "Steel Authority of India",
+                            "pickup": "Narela Industrial Area, Delhi",
+                            "delivery": "JNPT Port, Mumbai",
+                            "cargo": "Steel Coils",
+                            "weight_tons": 22,
+                            "offered_rate": 82000,
+                            "pickup_window": "4-8 hours from now"
+                        },
+                        {
+                            "load_id": "bh-202",
+                            "shipper": "Hindustan Unilever",
+                            "pickup": "Ghaziabad",
+                            "delivery": "Bhiwandi, Mumbai",
+                            "cargo": "FMCG Products",
+                            "weight_tons": 15,
+                            "offered_rate": 68000,
+                            "pickup_window": "Immediate"
+                        }
+                    ]
+                },
+                "reason": {
+                    "dead_mile_analysis": {
+                        "return_distance_km": 1420,
+                        "if_empty_return": {
+                            "fuel_cost": 18000,
+                            "toll_cost": 2700,
+                            "driver_cost": 4000,
+                            "total_loss": 24700,
+                            "message": "Returning empty = ₹24,700 LOSS"
+                        }
+                    },
+                    "backhaul_evaluation": {
+                        "best_option": "bh-201",
+                        "gross_earning": 82000,
+                        "costs": {
+                            "fuel": 18000,
+                            "tolls": 4500,
+                            "driver": 4000
+                        },
+                        "net_profit": 55500,
+                        "vs_empty_return": "+₹80,200 better than empty"
+                    },
+                    "match_score": 94,
+                    "reasoning": [
+                        "Pickup location is 5km from delivery point",
+                        "Pickup window aligns with driver rest period",
+                        "Steel coils fit within capacity (22T < 28T max)",
+                        "Rate ₹58/km is above market average ₹52/km"
+                    ]
+                },
+                "decide": {
+                    "decision_type": "ACCEPT_BACKHAUL",
+                    "load_id": "bh-201",
+                    "confidence": 0.94,
+                    "action": "Confirm booking with SAIL",
+                    "expected_benefit": {
+                        "net_profit": 55500,
+                        "utilization": "78%",
+                        "dead_miles_avoided": 1420
+                    }
+                },
+                "act": {
+                    "action_id": "ACT-202602011730",
+                    "booking_confirmed": true,
+                    "pickup_scheduled": "2026-02-01T22:00:00+05:30",
+                    "driver_notification": "🎯 Backhaul booked! After unloading, proceed to SAIL Narela for Steel Coils pickup. Earn ₹82,000 on return journey!",
+                    "dispatcher_notification": "Vehicle MH12AB1234 backhaul confirmed. ETA Mumbai: 2026-02-03T02:00:00"
+                }
+            },
+            "outcome": {
+                "without_agent": {
+                    "earnings": 98100,
+                    "return_cost": -24700,
+                    "net": 73400,
+                    "utilization": "39%"
+                },
+                "with_agent": {
+                    "earnings": 180100,
+                    "return_cost": 0,
+                    "net": 128900,
+                    "utilization": "78%"
+                },
+                "agent_value_add": "+₹55,500 (75% improvement)"
+            }
+        },
+        "scenario_4_ltl_pooling": {
+            "title": "LTL Pooling - Maximizing Capacity Utilization",
+            "description": "AI agent identifies opportunity to pool multiple small loads",
+            "trigger_event": {
+                "type": "capacity_underutilization",
+                "current_load": 8,
+                "max_capacity": 25,
+                "utilization": "32%",
+                "route": "Ahmedabad to Jaipur"
+            },
+            "agent_decision_loop": {
+                "observe": {
+                    "timestamp": "2026-02-01T08:00:00+05:30",
+                    "vehicle": {
+                        "id": "v-002",
+                        "registration": "GJ05CD5678",
+                        "current_load_tons": 8,
+                        "available_capacity": 17
+                    },
+                    "current_mission": {
+                        "origin": "Ahmedabad",
+                        "destination": "Jaipur",
+                        "primary_cargo": "Electronics (8T)",
+                        "route_distance": 670
+                    },
+                    "nearby_ltl_loads": [
+                        {
+                            "id": "ltl-301",
+                            "shipper": "Arvind Mills",
+                            "cargo": "Textiles",
+                            "weight_tons": 4,
+                            "pickup": "Naroda, Ahmedabad",
+                            "delivery": "Jaipur",
+                            "offered_rate": 15000,
+                            "detour_km": 8
+                        },
+                        {
+                            "id": "ltl-302",
+                            "shipper": "Zydus Pharma",
+                            "cargo": "Medicines",
+                            "weight_tons": 2,
+                            "pickup": "Changodar, Ahmedabad",
+                            "delivery": "Jaipur",
+                            "offered_rate": 12000,
+                            "detour_km": 15
+                        },
+                        {
+                            "id": "ltl-303",
+                            "shipper": "Quick Commerce",
+                            "cargo": "E-commerce packages",
+                            "weight_tons": 3,
+                            "pickup": "SG Highway, Ahmedabad",
+                            "delivery": "Jaipur",
+                            "offered_rate": 10000,
+                            "detour_km": 5
+                        }
+                    ]
+                },
+                "reason": {
+                    "capacity_analysis": {
+                        "current_utilization": "32%",
+                        "wasted_capacity": "17 tons (₹0 earning)",
+                        "potential_if_pooled": "68% utilization"
+                    },
+                    "pooling_evaluation": [
+                        {
+                            "load": "ltl-301",
+                            "profit_analysis": {
+                                "rate": 15000,
+                                "fuel_for_detour": 640,
+                                "time_cost": 400,
+                                "net_profit": 13960
+                            },
+                            "verdict": "ACCEPT"
+                        },
+                        {
+                            "load": "ltl-302",
+                            "profit_analysis": {
+                                "rate": 12000,
+                                "fuel_for_detour": 1200,
+                                "time_cost": 750,
+                                "net_profit": 10050
+                            },
+                            "verdict": "ACCEPT"
+                        },
+                        {
+                            "load": "ltl-303",
+                            "profit_analysis": {
+                                "rate": 10000,
+                                "fuel_for_detour": 400,
+                                "time_cost": 250,
+                                "net_profit": 9350
+                            },
+                            "verdict": "ACCEPT"
+                        }
+                    ],
+                    "optimized_route": {
+                        "original_distance": 670,
+                        "with_pickups": 698,
+                        "extra_km": 28,
+                        "extra_time_hours": 0.7,
+                        "total_ltl_earnings": 33360
+                    }
+                },
+                "decide": {
+                    "decision_type": "ACCEPT_LTL_LOAD",
+                    "loads_accepted": [
+                        "ltl-301",
+                        "ltl-302",
+                        "ltl-303"
+                    ],
+                    "confidence": 0.88,
+                    "optimized_pickup_sequence": [
+                        "1. SG Highway (ltl-303) - 5km",
+                        "2. Changodar (ltl-302) - 12km",
+                        "3. Naroda (ltl-301) - 8km",
+                        "4. Continue to Jaipur"
+                    ]
+                },
+                "act": {
+                    "bookings_confirmed": 3,
+                    "new_route_generated": true,
+                    "driver_notification": "📦 3 additional pickups added. Follow optimized route in navigation. Extra earnings: ₹33,360!",
+                    "eta_impact": "+45 minutes",
+                    "new_utilization": "68%"
+                }
+            },
+            "outcome": {
+                "before_pooling": {
+                    "load_tons": 8,
+                    "utilization": "32%",
+                    "trip_earning": 42000
+                },
+                "after_pooling": {
+                    "load_tons": 17,
+                    "utilization": "68%",
+                    "trip_earning": 75360
+                },
+                "improvement": {
+                    "additional_earnings": 33360,
+                    "earnings_increase": "79%",
+                    "co2_saved_kg": 35
+                }
+            }
+        },
+        "scenario_5_indian_context": {
+            "title": "Indian Context Handling - Festival Season Operations",
+            "description": "AI agent adapts to Diwali season with modified delays and route selection",
+            "context": {
+                "date": "2026-10-28",
+                "event": "Diwali Week",
+                "impact": {
+                    "traffic_increase": "40%",
+                    "toll_delays": "3x normal",
+                    "border_delays": "2x normal",
+                    "fuel_availability": "Limited at some stations"
+                }
+            },
+            "agent_adaptations": {
+                "planning_adjustments": {
+                    "eta_buffer": "+4 hours added to all estimates",
+                    "fare_surge": "1.25x festival premium applied",
+                    "route_preference": "Expressways only (avoid state highways)",
+                    "fuel_planning": "Pre-identified 24-hour fuel stations only"
+                },
+                "realtime_monitoring": {
+                    "checkpoints": {
+                        "frequency": "Every 30 minutes instead of hourly",
+                        "alerts": "Proactive delay warnings"
+                    },
+                    "connectivity": {
+                        "mode": "Hybrid (online + cached)",
+                        "offline_capability": "Full route + alternatives cached"
+                    }
+                },
+                "safety_prioritization": {
+                    "night_driving": "Avoid 11PM - 5AM in high-risk zones",
+                    "rest_stops": "Pre-booked, verified safe locations",
+                    "alternate_routes": "3 backup routes per segment"
+                }
+            },
+            "sample_decision": {
+                "observe": {
+                    "current_time": "2026-10-28T18:00:00",
+                    "connectivity": "Poor (2G only)",
+                    "traffic_data": "Cached (2 hours old)",
+                    "upcoming_toll": "Kasara Ghat - Last known wait: 45 min"
+                },
+                "reason": {
+                    "data_freshness": "Using cached data due to poor connectivity",
+                    "confidence_adjustment": "Reduced from 0.9 to 0.7",
+                    "safety_mode": "Active - prioritizing conservative estimates"
+                },
+                "decide": {
+                    "decision": "Proceed with caution",
+                    "eta_update": "+1.5 hours buffer added",
+                    "driver_alert": "⚠️ Limited connectivity. Using cached route. Allow extra time."
+                }
+            }
+        }
+    },
+    "fleet_dashboard_data": {
+        "fleet_stats": {
+            "total_vehicles": 5,
+            "on_mission": 3,
+            "available": 1,
+            "maintenance": 1,
+            "total_capacity_tons": 130,
+            "utilized_capacity_tons": 48.5,
+            "utilization_percent": 37.3
+        },
+        "today_metrics": {
+            "revenue": 175000,
+            "trips_completed": 2,
+            "distance_covered_km": 2450,
+            "fuel_consumed_liters": 520,
+            "avg_trip_duration_hours": 18.5,
+            "backhaul_bookings": 1,
+            "ltl_loads_added": 4
+        },
+        "ai_agent_performance": {
+            "decisions_made_today": 47,
+            "route_optimizations": 8,
+            "backhauls_suggested": 3,
+            "backhauls_accepted": 2,
+            "ltl_matches_found": 12,
+            "ltl_accepted": 4,
+            "estimated_savings_today": 45000,
+            "dead_miles_prevented_km": 890
+        },
+        "vehicles": [
+            {
+                "id": "v-001",
+                "registration": "MH12AB1234",
+                "status": "on_mission",
+                "driver": "Rajesh Kumar",
+                "current_mission": "Mumbai → Delhi",
+                "progress": "35%",
+                "eta": "2026-02-01T18:00:00",
+                "agent_status": "Active - monitoring traffic"
+            },
+            {
+                "id": "v-002",
+                "registration": "GJ05CD5678",
+                "status": "available",
+                "driver": "Suresh Patel",
+                "current_location": "Ahmedabad",
+                "agent_status": "Idle - searching for loads"
+            },
+            {
+                "id": "v-003",
+                "registration": "RJ14EF9012",
+                "status": "on_mission",
+                "driver": "Anil Sharma",
+                "current_mission": "Jaipur → Mumbai",
+                "progress": "60%",
+                "eta": "2026-02-01T08:00:00",
+                "agent_status": "Active - backhaul search initiated"
+            },
+            {
+                "id": "v-004",
+                "registration": "DL01GH3456",
+                "status": "loading",
+                "driver": "Vikram Singh",
+                "current_mission": "Delhi → Kolkata",
+                "progress": "5%",
+                "agent_status": "Planning - generating smart route"
+            },
+            {
+                "id": "v-005",
+                "registration": "KA01IJ7890",
+                "status": "maintenance",
+                "driver": "Ravi Reddy",
+                "location": "Bangalore Workshop",
+                "agent_status": "Inactive"
+            }
+        ],
+        "active_ai_insights": [
+            {
+                "priority": "high",
+                "type": "backhaul_opportunity",
+                "message": "Vehicle MH12AB1234 can pick up Steel Coils from Nagpur → Mumbai. Potential: ₹55,000",
+                "action_required": true
+            },
+            {
+                "priority": "medium",
+                "type": "route_optimization",
+                "message": "Traffic on NH44 near Vadodara. Reroute saves 45 minutes.",
+                "action_required": false
+            },
+            {
+                "priority": "high",
+                "type": "ltl_pooling",
+                "message": "3 LTL loads available for Ahmedabad-Jaipur. Combined: ₹33,000+",
+                "action_required": true
+            },
+            {
+                "priority": "low",
+                "type": "fuel_optimization",
+                "message": "Fuel ₹2/L cheaper at HP Vadodara. Vehicle RJ14EF9012 should refuel.",
+                "action_required": false
+            },
+            {
+                "priority": "medium",
+                "type": "demand_forecast",
+                "message": "40% increase in freight demand expected from Ahmedabad next week.",
+                "action_required": false
+            }
+        ]
+    },
+    "api_endpoints": {
+        "agent": {
+            "run_decision_loop": "POST /api/v1/agent/decision-loop",
+            "generate_smart_plan": "POST /api/v1/agent/plan-trip",
+            "find_backhaul": "POST /api/v1/agent/find-backhaul",
+            "analyze_ltl": "POST /api/v1/agent/analyze-ltl",
+            "get_agent_state": "GET /api/v1/agent/{truck_id}/state"
+        },
+        "demo": {
+            "dashboard": "GET /api/v1/demo/dashboard",
+            "vehicles": "GET /api/v1/demo/vehicles",
+            "missions": "GET /api/v1/demo/missions",
+            "insights": "GET /api/v1/demo/insights",
+            "backhaul_scenario": "GET /api/v1/demo/scenario/backhaul",
+            "ltl_pooling_scenario": "GET /api/v1/demo/scenario/ltl-pooling",
+            "route_optimization_scenario": "GET /api/v1/demo/scenario/route-optimization"
+        }
+    },
+    "key_differentiators": {
+        "vs_traditional_tms": [
+            "Continuous decision-making vs one-time planning",
+            "ETA ranges vs single optimistic time",
+            "Proactive backhaul booking vs reactive searching",
+            "Dynamic fare based on effort vs fixed per-km rate"
+        ],
+        "indian_market_fit": [
+            "Understands state border complexities",
+            "Accounts for realistic traffic patterns",
+            "Works offline in poor connectivity areas",
+            "Festival season aware adjustments"
+        ],
+        "financial_impact": {
+            "dead_mile_reduction": "Up to 40%",
+            "capacity_utilization_improvement": "30-50%",
+            "average_earnings_increase": "25-35%",
+            "fuel_cost_optimization": "8-12%"
+        }
+    }
+}

@@ -5,6 +5,7 @@ import {
     CubeIcon,
     MapIcon,
     ChartBarIcon,
+    CalculatorIcon,
 } from '@heroicons/react/24/outline';
 
 const Sidebar: React.FC = () => {
@@ -14,6 +15,7 @@ const Sidebar: React.FC = () => {
         { name: 'Loads', path: '/loads', icon: CubeIcon },
         { name: 'Routes', path: '/routes', icon: MapIcon },
         { name: 'Analytics', path: '/analytics', icon: ChartBarIcon },
+        { name: 'Cost Calculator', path: '/cost-calculator', icon: CalculatorIcon },
     ];
 
     return (

@@ -1,0 +1,23 @@
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Handle SPA routing - send all routes to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Proxy API requests to backend (update the URL after deploying backend)
+# [[redirects]]
+#   from = "/api/*"
+#   to = "https://your-neurologistics-api.onrender.com/api/:splat"
+#   status = 200
+#   force = true
+
+[context.production.environment]
+  VITE_API_URL = "https://alphaneuron.onrender.com"

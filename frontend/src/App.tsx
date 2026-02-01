@@ -11,6 +11,7 @@ import VehiclesPage from './pages/VehiclesPage';
 import LoadsPage from './pages/LoadsPage';
 import RoutesPage from './pages/RoutesPage';
 import AnalyticsPage from './pages/AnalyticsPage';
+import CostCalculatorPage from './pages/CostCalculatorPage';
 
 // Components
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -68,6 +69,7 @@ function App() {
                         <Route path="loads" element={<LoadsPage />} />
                         <Route path="routes" element={<RoutesPage />} />
                         <Route path="analytics" element={<AnalyticsPage />} />
+                        <Route path="cost-calculator" element={<CostCalculatorPage />} />
                     </Route>
 
                     {/* Fallback */}
@@ -82,3 +84,4 @@ function App() {
 }
 
 export default App;
+
