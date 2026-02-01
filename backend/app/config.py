@@ -51,8 +51,21 @@ class Settings(BaseSettings):
     AGENT_MAX_DETOUR_KM: float = 30.0
     AGENT_MAX_DETOUR_MINUTES: int = 45
 
-    # CORS Origins
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:5173"]
+    # CORS Origins - includes localhost for dev and Netlify patterns for production
+    CORS_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "https://*.netlify.app",
+        "https://neurologistics.netlify.app",
+    ]
+    
+    # API Prefix
+    API_V1_PREFIX: str = "/api/v1"
+    
+    @property
+    def PROJECT_NAME(self) -> str:
+        """Alias for APP_NAME for compatibility."""
+        return self.APP_NAME
 
     @property
     def is_development(self) -> bool:

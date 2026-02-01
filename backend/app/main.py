@@ -21,9 +21,13 @@ async def lifespan(app: FastAPI):
     # Startup
     print("🚀 Starting Neuro-Logistics API...")
     
-    # Create tables (in production, use Alembic migrations)
-    Base.metadata.create_all(bind=engine)
-    print("✅ Database tables ready")
+    # Try to create tables (may fail if DB not available)
+    try:
+        Base.metadata.create_all(bind=engine)
+        print("✅ Database tables ready")
+    except Exception as e:
+        print(f"⚠️ Database not available: {e}")
+        print("📝 Running in DEMO mode - some features may be limited")
     
     yield
     
@@ -56,10 +60,16 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS configuration
+# CORS configuration - support both specific origins and Netlify subdomains
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5173",
+    ],
+    allow_origin_regex=r"https://.*\.netlify\.app",  # Allow all Netlify subdomains
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

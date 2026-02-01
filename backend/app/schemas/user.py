@@ -31,8 +31,8 @@ class UserRegister(UserBase):
 
 # Login
 class UserLogin(BaseModel):
-    """Schema for user login."""
-    phone: str = Field(..., pattern=r"^[6-9]\d{9}$")
+    """Schema for user login. Accepts phone number or email."""
+    phone: str = Field(..., description="Phone number or email address")
     password: str
 
 
