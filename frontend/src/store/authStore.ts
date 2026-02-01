@@ -112,30 +112,7 @@ export const useAuthStore = create<AuthStore>()(
                 const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
 
                 if (!token) {
-                    // AUTO LOGIN FOR HACKATHON
-                    try {
-                        // Use default credentials to auto-login
-                        const response = await authApi.login({
-                            email: 'admin@neurologistics.com',
-                            password: 'admin123'
-                        });
-
-                        // Store token in localStorage
-                        localStorage.setItem(STORAGE_KEYS.AUTH_TOKEN, response.token);
-
-                        set({
-                            user: response.user,
-                            token: response.token,
-                            isAuthenticated: true,
-                            isLoading: false,
-                            error: null,
-                        });
-
-                        // Connect WebSocket after successful login
-                        websocketService.connect();
-                    } catch (error) {
-                        set({ isAuthenticated: false, user: null, token: null });
-                    }
+                    set({ isAuthenticated: false, user: null, token: null });
                     return;
                 }
 

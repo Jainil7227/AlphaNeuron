@@ -16,39 +16,8 @@ class WebSocketService {
     }
 
     connect(): void {
-        const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
-
-        if (!token) {
-            console.warn('No auth token found. WebSocket connection skipped.');
-            return;
-        }
-
-        this.socket = io(WS_BASE_URL, {
-            auth: { token },
-            transports: ['websocket'],
-            reconnection: true,
-            reconnectionAttempts: this.maxReconnectAttempts,
-            reconnectionDelay: 1000,
-        });
-
-        this.socket.on(WS_EVENTS.CONNECT, () => {
-            console.log('✅ WebSocket connected');
-            this.reconnectAttempts = 0;
-        });
-
-        this.socket.on(WS_EVENTS.DISCONNECT, (reason: string) => {
-            console.log('❌ WebSocket disconnected:', reason);
-        });
-
-        this.socket.on('connect_error', (error: Error) => {
-            console.error('WebSocket connection error:', error);
-            this.reconnectAttempts++;
-
-            if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-                console.error('Max reconnection attempts reached. Giving up.');
-                this.disconnect();
-            }
-        });
+        console.log("🔌 MOCK MODE: WebSocket simulation active");
+        // No real connection in mock mode
     }
 
     disconnect(): void {

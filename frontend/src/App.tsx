@@ -5,7 +5,7 @@ import { useNotificationStore } from './store/notificationStore';
 import websocketService from './api/websocket';
 
 // Pages
-
+import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import VehiclesPage from './pages/VehiclesPage';
 import LoadsPage from './pages/LoadsPage';
@@ -51,6 +51,9 @@ function App() {
         <Router>
             <div className="min-h-screen bg-gray-50">
                 <Routes>
+
+                    {/* Public Routes */}
+                    <Route path="/login" element={<LoginPage />} />
 
                     {/* Protected Routes */}
                     <Route

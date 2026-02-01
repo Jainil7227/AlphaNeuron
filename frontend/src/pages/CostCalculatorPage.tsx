@@ -9,7 +9,7 @@ import {
     ArrowPathIcon,
     SparklesIcon,
 } from '@heroicons/react/24/outline';
-import api from '../api';
+import { agentApi } from '../api';
 
 interface CostResult {
     success: boolean;
@@ -104,7 +104,7 @@ const CostCalculatorPage: React.FC = () => {
         setError(null);
 
         try {
-            const response = await api.post('/api/v1/agent/calculate-cost', {
+            const response = await agentApi.calculateCost({
                 origin,
                 destination,
                 weight_tons: weightTons,
