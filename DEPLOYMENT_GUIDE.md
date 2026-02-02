@@ -44,7 +44,7 @@ Now we deploy the React frontend and connect it to your live backend.
 5. **Environment Variables**:
    Click **Advanced** (or go to Site Settings later) and add:
    - Key: `VITE_API_URL`
-   - Value: `https://your-backend-url.onrender.com` (Paste the URL from Part 1, **without** the trailing `/`)
+   - Value: `https://neurologistics.onrender.com` (Your live backend URL)
 6. **Deploy**: Click **Deploy site**.
 
 ---
@@ -56,3 +56,18 @@ Now we deploy the React frontend and connect it to your live backend.
 3. Check the **Network Tab** as you use the app.
    - You should see requests going to `https://your-backend-url.onrender.com/api/...` instead of `localhost`.
 4. Test the **AI Copilot** to ensure the backend connection works.
+
+---
+
+## 🛠️ Configuring Environment Variables After Deployment
+
+If you didn't add the URL during creation (or need to change it):
+
+1. Go to your **Netlify Dashboard** and select your site.
+2. Click **Site configuration** in the left sidebar.
+3. Select **Environment variables**.
+4. Click **Add a variable** -> **Add single variable**.
+   - Key: `VITE_API_URL`
+   - Value: `https://neurologistics.onrender.com`
+5. **IMPORTANT**: Go to the **Deploys** tab and click **Trigger deploy** -> **Clear cache and deploy site**. 
+   *Environment variables are only baked in during the build process, so a new build is required.*

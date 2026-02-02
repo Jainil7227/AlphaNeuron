@@ -796,12 +796,14 @@ export function DriverDashboard() {
                         input.value = '';
 
                         // Call the real AI copilot API
-                        if (currentMissionId) {
+                        const activeMissionId = currentMissionId || currentMission?.id;
+
+                        if (activeMissionId) {
                           addCopilotMessage('agent', '🔍 Analyzing your request...');
 
                           try {
                             const result = await copilotChat({
-                              mission_id: currentMissionId,
+                              mission_id: activeMissionId,
                               query: userQuery,
                             });
 
