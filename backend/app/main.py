@@ -1,117 +1,98 @@
-from contextlib import asynccontextmanager
+"""
+Neuro-Logistics Backend API
+
+A clean, AI-powered logistics system with 3 core modules:
+1. Context-Aware Mission Planner - Dynamic routing and pricing
+2. Rolling Decision Engine - Real-time trip adaptation
+3. Dynamic Capacity Manager - LTL pooling and backhauling
+
+No SQL database or Google Maps dependencies.
+Uses in-memory storage and Gemini AI.
+"""
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.routes import router as api_router
 from app.config import settings
-from app.api import api_router
-from app.db import engine, Base
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """
-    Application lifespan handler.
-    
-    Startup:
-    - Create database tables if they don't exist
-    
-    Shutdown:
-    - Cleanup resources
-    """
-    # Startup
-    print("🚀 Starting Neuro-Logistics API...")
-    
-    # Try to create tables (may fail if DB not available)
-    try:
-        Base.metadata.create_all(bind=engine)
-        print("✅ Database tables ready")
-    except Exception as e:
-        print(f"⚠️ Database not available: {e}")
-        print("📝 Running in DEMO mode - some features may be limited")
-    
-    yield
-    
-    # Shutdown
-    print("👋 Shutting down Neuro-Logistics API...")
-
-
+# Create FastAPI app
 app = FastAPI(
-    title=settings.PROJECT_NAME,
+    title="Neuro-Logistics API",
     description="""
-    ## Neuro-Logistics API
+    AI-powered logistics system that transforms road freight from a static process
+    into a fluid, intelligent operation.
     
-    AI-driven agentic system for road freight optimization.
+    ## Core Modules
     
-    ### Three Core Modules:
+    ### Module 1: Context-Aware Mission Planner
+    Solves static pricing and route rigidity at trip start.
+    - Infrastructure-aware routing (checkpost delays, no-entry timings)
+    - Dynamic fare engine based on effort, not just distance
+    - ETA range with optimistic/expected/pessimistic estimates
     
-    1. **Context-Aware Mission Planner** - Infrastructure-aware routing with dynamic fare calculation
-    2. **Rolling Decision Engine** - Continuous monitoring with opportunity detection
-    3. **Dynamic Capacity Manager** - LTL pooling and predictive backhauling
+    ### Module 2: Rolling Decision Engine
+    Solves variable time and inability to adapt during trip.
+    - Continuous monitoring loop (Observe → Reason → Decide)
+    - Opportunity vs. Cost calculator
+    - Autonomous rerouting recommendations
     
-    ### Authentication
-    
-    Use `/api/v1/auth/login` to get JWT tokens.
-    Include `Authorization: Bearer <token>` header in requests.
+    ### Module 3: Dynamic Capacity Manager
+    Solves empty returns and partial capacity utilization.
+    - En-route LTL pooling (fill unused capacity)
+    - Predictive backhauling (pre-book return loads)
+    - Fleet-wide capacity optimization
     """,
-    version="1.0.0",
-    openapi_url=f"{settings.API_V1_PREFIX}/openapi.json",
+    version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    lifespan=lifespan,
 )
 
-# CORS configuration - support both specific origins and Netlify subdomains
+# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173",
-    ],
-    allow_origin_regex=r"https://.*\.netlify\.app",  # Allow all Netlify subdomains
+    allow_origins=["*"],  # Allow all origins for demo
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Mount API router
-app.include_router(api_router, prefix=settings.API_V1_PREFIX)
+
+# Include API routes
+app.include_router(api_router, prefix="/api")
 
 
-# Health check endpoint
-@app.get("/health", tags=["Health"])
-def health_check():
-    """
-    Health check endpoint for load balancers and monitoring.
-    """
-    return {
-        "status": "healthy",
-        "service": settings.PROJECT_NAME,
-        "version": "1.0.0",
-    }
-
-
-# Root endpoint
 @app.get("/", tags=["Root"])
-def root():
-    """
-    Root endpoint with API information.
-    """
+async def root():
+    """Root endpoint with API information."""
     return {
-        "message": "Welcome to Neuro-Logistics API",
+        "name": "Neuro-Logistics API",
+        "version": "2.0.0",
+        "status": "running",
+        "modules": [
+            "Mission Planner",
+            "Decision Engine",
+            "Capacity Manager",
+        ],
         "docs": "/docs",
-        "redoc": "/redoc",
-        "health": "/health",
-        "api": settings.API_V1_PREFIX,
+        "health": "/api/health",
     }
 
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(
-        "app.main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=settings.DEBUG,
-    )
+@app.on_event("startup")
+async def startup_event():
+    """Startup event handler."""
+    print("🚀 Neuro-Logistics API starting...")
+    print(f"📍 Gemini Model: {settings.GEMINI_MODEL}")
+    if settings.GEMINI_API_KEY:
+        print("✅ Gemini API key configured")
+    else:
+        print("⚠️  Gemini API key not configured - AI features limited")
+    print("✅ All modules initialized")
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Shutdown event handler."""
+    print("👋 Neuro-Logistics API shutting down...")

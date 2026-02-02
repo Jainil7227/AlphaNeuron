@@ -1,87 +1,26 @@
+"""
+Neuro-Logistics Configuration
+
+Minimal configuration for the AI-powered logistics system.
+No database or Google Maps dependencies.
+"""
+
 from pydantic_settings import BaseSettings
-from pydantic import Field
-from typing import List
 from functools import lru_cache
 
 
 class Settings(BaseSettings):
     """Application configuration loaded from environment variables."""
     
-    # Application
-    APP_NAME: str = "Neuro-Logistics API"
-    APP_VERSION: str = "1.0.0"
-    DEBUG: bool = False
-    ENVIRONMENT: str = "development"
-
+    # Gemini AI (Google)
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-2.5-flash-lite"
+    GEMINI_TEMPERATURE: float = 0.7
+    
     # Server
     HOST: str = "0.0.0.0"
     PORT: int = 8000
-
-    # Database - PostgreSQL with PostGIS
-    DATABASE_URL: str = "sqlite:///./demo.db"
-    DB_POOL_SIZE: int = 10
-    DB_ECHO: bool = False
-
-    # Redis
-    REDIS_URL: str = "redis://localhost:6379/0"
-
-    # JWT Authentication
-    JWT_SECRET_KEY: str
-    JWT_ALGORITHM: str = "HS256"
-    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
-    JWT_REFRESH_TOKEN_EXPIRE_DAYS: int = 7
-
-    # External APIs
-    GOOGLE_MAPS_API_KEY: str = ""
-    FUEL_API_URL: str = "https://api.example.com/fuel"
-    WEATHER_API_KEY: str = ""
-
-    # -----------------
-    # Grok AI (xAI)
-    # -----------------
-    GROK_API_KEY: str = ""
-    GROK_BASE_URL: str = "https://api.x.ai/v1"
-    GROK_MODEL: str = "grok-beta"
-    GROK_MAX_TOKENS: int = 4096
-    GROK_TEMPERATURE: float = 0.7
-
-    # Agent Configuration
-    AGENT_CHECK_INTERVAL_MINUTES: int = 15
-    AGENT_MIN_PROFIT_THRESHOLD: float = 500.0
-    AGENT_MAX_DETOUR_KM: float = 30.0
-    AGENT_MAX_DETOUR_MINUTES: int = 45
-
-    # CORS Origins - includes localhost for dev and Netlify patterns for production
-    CORS_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "https://*.netlify.app",
-        "https://neurologistics.netlify.app",
-    ]
     
-    # API Prefix
-    API_V1_PREFIX: str = "/api/v1"
-    
-    @property
-    def PROJECT_NAME(self) -> str:
-        """Alias for APP_NAME for compatibility."""
-        return self.APP_NAME
-
-    @property
-    def is_development(self) -> bool:
-        """Check if running in development mode."""
-        return self.ENVIRONMENT == "development"
-    
-    @property
-    def is_production(self) -> bool:
-        """Check if running in production mode."""
-        return self.ENVIRONMENT == "production"
-    
-    @property
-    def database_url_sync(self) -> str:
-        """Return sync database URL (converts async to sync if needed)."""
-        return self.DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
-
     class Config:
         env_file = ".env"
         case_sensitive = True

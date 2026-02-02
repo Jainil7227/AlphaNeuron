@@ -1,25 +1,5 @@
-from app.core.security import (
-    hash_password,
-    verify_password,
-    create_access_token,
-    create_refresh_token,
-    decode_token,
-    get_current_user,
-    get_current_active_user,
-    get_current_driver,
-    get_current_fleet_operator,
-    get_current_admin,
-)
+"""Core module."""
 
-__all__ = [
-    "hash_password",
-    "verify_password",
-    "create_access_token",
-    "create_refresh_token",
-    "decode_token",
-    "get_current_user",
-    "get_current_active_user",
-    "get_current_driver",
-    "get_current_fleet_operator",
-    "get_current_admin",
-]
+from app.core.gemini_client import GeminiClient, get_gemini_client
+
+__all__ = ["GeminiClient", "get_gemini_client"]

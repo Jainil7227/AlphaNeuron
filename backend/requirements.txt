@@ -1,53 +1,18 @@
 # ============================================
-# NEURO-LOGISTICS - PRODUCTION DEPENDENCIES
+# NEURO-LOGISTICS BACKEND - MINIMAL DEPENDENCIES
 # ============================================
-# Minimal dependencies for Render deployment
-# (No dev/test packages, compatible with Render's build system)
 
-# -----------------
 # Core Framework
-# -----------------
 fastapi==0.109.2
 uvicorn==0.27.1
 pydantic==2.6.1
 pydantic-settings==2.1.0
 
-# -----------------
-# Database (using pure-python driver)
-# -----------------
-sqlalchemy==2.0.25
-psycopg2-binary==2.9.9
-
-# -----------------
-# Authentication (simplified - no native deps)
-# -----------------
-PyJWT==2.8.0
-passlib==1.7.4
-bcrypt==4.1.2
-
-# -----------------
-# HTTP Client
-# -----------------
+# HTTP Client (for Gemini API)
 httpx==0.26.0
 
-# -----------------
-# Validation & Serialization
-# -----------------
-email-validator==2.1.0
-python-multipart==0.0.9
-
-# -----------------
-# Date/Time
-# -----------------
-python-dateutil==2.8.2
-pytz==2024.1
-
-# -----------------
 # Environment
-# -----------------
 python-dotenv==1.0.1
 
-# -----------------
-# External APIs
-# -----------------
-requests==2.31.0
+# CORS
+python-multipart==0.0.9
